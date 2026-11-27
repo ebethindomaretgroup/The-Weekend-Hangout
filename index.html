@@ -349,7 +349,7 @@ function results(){const pct=Math.min(100,Math.round(S.score/MAXPT*100));S.pct=p
  <div class="card"><h3>🏅 Lencana</h3><div class="bg">${BD.map(b=>`<div class="bd${S.badges.includes(b.id)?'':' lock'}"><span>${b.i}</span>${b.n}<br><small>${b.d}</small></div>`).join('')}</div></div>
  <div class="card"><h3>📝 Feedback tiap misi</h3>${TT.map((t,i)=>`<div class="rv"><b>Misi ${i+1}: ${t}</b><br>${S.wrong[i]?`🔄 Perlu disesuaikan (${S.wrong[i]} salah langkah)`:'✅ Keputusan tepat'}<br><small>${EX[i]}</small></div>`).join('')}</div>
  <div class="card"><h3>💬 Pesan untukmu, ${S.name}</h3><p>${msg}</p></div><button class="btn alt" id="again">Main Lagi 🔁</button>`,()=>{
-  emit('complete',{score:S.score,max:MAXPT,pct,rank});$('#again').onclick=()=>{emit('restart');Object.assign(S,{score:0,progress:0,badges:[],wrong:[0,0,0,0,0],done:[],finished:false,pct:0});gateway()}})}
+  emit('complete',{score:S.score,max:MAXPT,pct,rank});/* SCORM SIGNAL: layar hasil (tombol "Main Lagi") tampil -> misi selesai */try{if(parent!==window)parent.postMessage({jenis:'GAME_SELESAI',nilai:pct},'*')}catch(e){}$('#again').onclick=()=>{emit('restart');Object.assign(S,{score:0,progress:0,badges:[],wrong:[0,0,0,0,0],done:[],finished:false,pct:0});gateway()}})}
 
 gateway();
 })();
